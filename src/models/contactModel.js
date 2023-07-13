@@ -17,6 +17,9 @@ const contactUsSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isFromSAPService:{
+      type: Boolean,
+    }
   },
   {
     timestamps: true,
