@@ -12,8 +12,8 @@ app.use(
     methods: "GET,POST,PUT,DELETE,PATCH",
   })
 );
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '500mb'}));
+app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
 app.use("/v1", routes);
 
 app.listen(port, () => {
