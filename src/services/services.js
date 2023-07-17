@@ -3,6 +3,11 @@ const Inquiry = require("../models/inquiryModel");
 const Portfolio = require("../models/portfolioModel");
 const Blogs = require("../models/blogModel");
 const Reviews = require("../models/reviewModel");
+const User = require("../models/adminUserModel")
+
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const config = require("../configs/config.js");
 
 const contactUsService = async (params) => {
   try {
@@ -410,6 +415,120 @@ const deleteReviewService = async (id) => {
     };
   }
 };
+
+const addUserService = async(params)=>{
+  try {
+    if([null,undefined,""].includes(params.username) || [null,undefined,""].includes(params.email)|| [null,undefined,""].includes(params.password)){
+      return {
+        status: 400,
+        message: "Please Provide valid input or enter required data",
+      };
+    }
+    const isUserExist = await User.findOne({ email: params.email });
+    if(isUserExist){
+      return {
+        status:404,
+        message:"User already exists! please enter a new email",
+      }
+    }
+    params.password = await bcrypt.hash(params.password, 8);
+    const user = await new User(params).save();
+    if(user){
+      const token = jwt.sign({_id:user._id},config.JWT_SECRET,{
+        expiresIn:"24h"
+      })
+      return {
+        status:200,
+        data:token
+      }
+    }else{
+      throw new Error("Error while Registering User")
+    }
+    
+  } catch (error) {
+    return {
+      status:500,
+      message:error.message,
+    }
+  }
+}
+
+const userLoginService = async(params)=>{
+  try {
+    const user = await User.findOne({email:params.email});
+    if(!user){
+      return {
+        status:400,
+        message:"User does not exist"
+      }
+    }
+    const isMatch = await bcrypt.compare(
+      params.password,
+      user.password
+    );
+    if(!isMatch){
+      return {
+        status: 400,
+        message: "Password is incorrect",
+      };
+    }
+    const token = jwt.sign({ _id: user?._id }, config.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+    return {
+      status: 200,
+      token: token,
+    };
+  } catch (error) {
+    return {
+      status:500,
+      message:error.message,
+    }
+  }
+}
+
+const getAllContactUsDataService=  async()=>{
+  try {
+    const data = await ContactUs.find();
+    if(data.length=== 0){
+      return{
+        status:404,
+        message:"No Data Found",
+      }
+    }
+    return {
+      status:200,
+      data:data
+    }
+  } catch (error) {
+    return {
+      status:500,
+      message:error.message,
+    }
+  }
+}
+
+const getAllInquiriesService = async()=>{
+  try {
+    const data = await Inquiry.find();
+    if(data.length=== 0){
+      return{
+        status:404,
+        message:"No Data Found",
+      }
+    }
+    return {
+      status:200,
+      data:data
+    }
+  } catch (error) {
+    return {
+      status:500,
+      message:error.message,
+    }
+  }
+}
+
 module.exports = {
   contactUsService,
   inquiryService,
@@ -428,4 +547,8 @@ module.exports = {
   getSingleReviewService,
   updateReviewService,
   deleteReviewService,
+  addUserService,
+  userLoginService,
+  getAllContactUsDataService,
+  getAllInquiriesService
 };

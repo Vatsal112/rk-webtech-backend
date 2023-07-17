@@ -17,11 +17,18 @@ const {
   getSingleReviewController,
   updateReviewController,
   deleteReviewController,
+  addUserController,
+  userLoginController,
+  getAllContactUsDataController,
+  getAllInquiriesController,
 } = require("../controllers/controller");
 const router = new express.Router();
 
+//Contact Us and Inquiry routes
 router.post("/contact-us", contactUsController);
 router.post("/inquiry", inquiryController);
+router.get("/contact-us",getAllContactUsDataController)
+router.get("/inquiries",getAllInquiriesController)
 
 //Portfolio routes
 router.post("/add-portfolio", addPortfolioController);
@@ -43,5 +50,9 @@ router.get("/reviews", getAllReviewsController);
 router.get("/review/:id", getSingleReviewController);
 router.put("/review/:id", updateReviewController);
 router.delete("/review/:id", deleteReviewController);
+
+//Admin User Routes
+router.post("/user/add", addUserController);
+router.post("/user/login",userLoginController);
 
 module.exports = router;

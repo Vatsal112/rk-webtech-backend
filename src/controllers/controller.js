@@ -16,6 +16,10 @@ const {
   getSingleReviewService,
   updateReviewService,
   deleteReviewService,
+  addUserService,
+  userLoginService,
+  getAllContactUsDataService,
+  getAllInquiriesService,
 } = require("../services/services");
 
 const contactUsController = async (req, res, next) => {
@@ -101,6 +105,26 @@ const deleteReviewController = async (req, res, next) => {
   const response = await deleteReviewService(req.params.id);
   return res.status(response?.status).send(response);
 };
+
+const addUserController = async (req, res, next) => {
+  const response = await addUserService(req.body);
+  return res.status(response?.status).send(response);
+}
+
+const userLoginController = async (req, res, next) => {
+  const response = await userLoginService(req.body);
+  return res.status(response?.status).send(response);
+}
+
+const getAllContactUsDataController = async (req, res, next) => {
+  const response = await getAllContactUsDataService();
+  return res.status(response?.status).send(response);
+}
+
+const getAllInquiriesController = async (req, res)=>{
+  const response = await getAllInquiriesService();
+  return res.status(response?.status).send(response);
+}
 module.exports = {
   contactUsController,
   inquiryController,
@@ -119,4 +143,8 @@ module.exports = {
   getSingleReviewController,
   updateReviewController,
   deleteReviewController,
+  addUserController,
+  userLoginController,
+  getAllContactUsDataController,
+  getAllInquiriesController
 };
