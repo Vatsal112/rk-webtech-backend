@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-const config = require("../configs/config");
+const User = require("../src/models/adminUserModel");
+const config = require("../src/configs/config");
 
 const auth = async (req, res, next) => {
   try {
@@ -9,7 +9,6 @@ const auth = async (req, res, next) => {
 
     const user = await User.findOne({
       _id: decode._id,
-      "tokens.token": token,
     });
 
     if (!user) {
@@ -21,7 +20,7 @@ const auth = async (req, res, next) => {
     req.id = user._id;
     next();
   } catch (e) {
-    res.status(401).send({ error: "Unauthorized" });
+    res.status(401).send({ status:401,error: "Unauthorized" });
   }
 };
 
