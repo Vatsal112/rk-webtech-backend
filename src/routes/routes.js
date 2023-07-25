@@ -33,21 +33,21 @@ router.get("/inquiries",auth,getAllInquiriesController)
 
 //Portfolio routes
 router.post("/add-portfolio",auth, addPortfolioController);
-router.get("/portfolios",auth, getAllPortfoliosController);
+router.get("/portfolios", getAllPortfoliosController);
 router.get("/portfolio/:id",auth, getSinglePortfoliosController);
 router.put("/portfolio/:id",auth, updatePortfolioController);
 router.delete("/portfolio/:id",auth, deletePortfolioController);
 
 //blog routes
 router.post("/add-blog",auth, addBlogController);
-router.get("/blogs",auth, getAllBlogsController);
+router.get("/blogs", getAllBlogsController);
 router.get("/blog/:id",auth, getSingleBlogController);
 router.put("/blog/:id",auth, updateBlogController);
 router.delete("/blog/:id",auth, deleteBlogController);
 
 //Review Routes
 router.post("/add-review",auth, addReviewController);
-router.get("/reviews",auth, getAllReviewsController);
+router.get("/reviews", getAllReviewsController);
 router.get("/review/:id",auth, getSingleReviewController);
 router.put("/review/:id",auth, updateReviewController);
 router.delete("/review/:id",auth, deleteReviewController);
