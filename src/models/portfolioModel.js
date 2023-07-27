@@ -21,6 +21,15 @@ const portfolioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    mobileAppImage:{
+      type: String,
+    },
+    uiUxImage: {
+      type:String,
+    },
+    websiteImage:{
+      type:String,
+    },
     projectDetails:{
         type:mongoose.SchemaTypes.Mixed,
         required: true,
