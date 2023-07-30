@@ -7,7 +7,6 @@ const reviewSchema = new mongoose.Schema(
     },
     customerImage: {
       type: String,
-      required: true,
     },
     customerDesignation: {
       type: String,

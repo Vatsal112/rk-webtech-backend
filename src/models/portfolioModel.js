@@ -17,39 +17,48 @@ const portfolioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    mainPortfolioImage: {
+    mobileAppImage: {
       type: String,
-      required: true,
     },
-    mobileAppImage:{
+    mobileAppImageMobile: {
       type: String,
     },
     uiUxImage: {
-      type:String,
+      type: String,
     },
-    websiteImage:{
-      type:String,
+    uiUxImageMobile: {
+      type: String,
     },
-    projectDetails:{
-        type:mongoose.SchemaTypes.Mixed,
-        required: true,
+    websiteImage: {
+      type: String,
     },
-    technologiesUsed:{
-        type:[{
-            type:String,
-        }],
-        required: true,
+    websiteImageMobile: {
+      type: String,
     },
-    toolsLibraryUsed:{
-        type:[{
-            type:String,
-        }],
-        required: true,
+    projectDetails: {
+      type: mongoose.SchemaTypes.Mixed,
+      required: true,
     },
-    isActive:{
-      type:Boolean,
-      default:true,
-    }
+    technologiesUsed: {
+      type: [
+        {
+          type: String,
+        },
+      ],
+      required: true,
+    },
+    toolsLibraryUsed: {
+      type: [
+        {
+          type: String,
+        },
+      ],
+      required: true,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
