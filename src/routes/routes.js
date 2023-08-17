@@ -26,8 +26,8 @@ const auth = require("../../middleware/adminAuth");
 const router = new express.Router();
 
 //Contact Us and Inquiry routes
-router.post("/contact-us",auth, contactUsController);
-router.post("/inquiry",auth, inquiryController);
+router.post("/contact-us", contactUsController);
+router.post("/inquiry", inquiryController);
 router.get("/contact-us",auth,getAllContactUsDataController)
 router.get("/inquiries",auth,getAllInquiriesController)
 
