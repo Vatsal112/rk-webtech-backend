@@ -21,6 +21,9 @@ const {
   userLoginController,
   getAllContactUsDataController,
   getAllInquiriesController,
+  userForgetPasswordController,
+  addInquiryTitleController,
+  getInquiryHeaderController,
 } = require("../controllers/controller");
 const auth = require("../../middleware/adminAuth");
 const router = new express.Router();
@@ -30,6 +33,8 @@ router.post("/contact-us", contactUsController);
 router.post("/inquiry", inquiryController);
 router.get("/contact-us",auth,getAllContactUsDataController)
 router.get("/inquiries",auth,getAllInquiriesController)
+router.put("/inquiry/update-header",auth,addInquiryTitleController)
+router.get("/inquiry/get-header",getInquiryHeaderController);
 
 //Portfolio routes
 router.post("/add-portfolio",auth, addPortfolioController);
@@ -55,5 +60,6 @@ router.delete("/review/:id",auth, deleteReviewController);
 //Admin User Routes
 router.post("/user/register", addUserController);
 router.post("/user/login",userLoginController);
+router.put('/user/forget-password',auth,userForgetPasswordController);
 
 module.exports = router;

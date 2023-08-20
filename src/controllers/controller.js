@@ -20,6 +20,9 @@ const {
   userLoginService,
   getAllContactUsDataService,
   getAllInquiriesService,
+  userForgetPasswordService,
+  addInquiryTitleService,
+  getInquiryHeaderService,
 } = require("../services/services");
 
 const contactUsController = async (req, res, next) => {
@@ -125,6 +128,22 @@ const getAllInquiriesController = async (req, res)=>{
   const response = await getAllInquiriesService();
   return res.status(response?.status).send(response);
 }
+
+const userForgetPasswordController = async(req,res)=>{
+  const response = await userForgetPasswordService(req.body);
+  return res.status(response?.status).send(response);
+}
+
+const addInquiryTitleController= async(req,res)=>{
+  const response = await addInquiryTitleService(req.body);
+  return res.status(response?.status).send(response);
+}
+
+const getInquiryHeaderController = async(req,res)=>{
+  const response = await getInquiryHeaderService();
+  return res.status(response?.status).send(response);
+}
+
 module.exports = {
   contactUsController,
   inquiryController,
@@ -146,5 +165,8 @@ module.exports = {
   addUserController,
   userLoginController,
   getAllContactUsDataController,
-  getAllInquiriesController
+  getAllInquiriesController,
+  userForgetPasswordController,
+  addInquiryTitleController,
+  getInquiryHeaderController
 };

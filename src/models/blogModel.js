@@ -5,7 +5,11 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    blogImage: {
+    mainImage: {
+      type: String,
+      required: true,
+    },
+    cardImage: {
       type: String,
       required: true,
     },

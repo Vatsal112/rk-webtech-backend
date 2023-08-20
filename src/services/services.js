@@ -4,10 +4,12 @@ const Portfolio = require("../models/portfolioModel");
 const Blogs = require("../models/blogModel");
 const Reviews = require("../models/reviewModel");
 const User = require("../models/adminUserModel");
+const InquiryHeaderModel = require('../models/inquiryHeaderModel')
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../configs/config.js");
+const inquiryHeader = require("../models/inquiryHeaderModel");
 
 const contactUsService = async (params) => {
   try {
@@ -46,7 +48,6 @@ const addPortfolioService = async (params) => {
     if (
       [null, undefined, ""].includes(params.type) ||
       [null, undefined, ""].includes(params.title) ||
-      [null, undefined, ""].includes(params.type) ||
       [null, undefined, ""].includes(params.bannerImage) ||
       [null, undefined, ""].includes(params.cardImage) ||
       [null, undefined, ""].includes(params.projectDetails) ||
@@ -56,6 +57,14 @@ const addPortfolioService = async (params) => {
       return {
         status: 400,
         message: "Please Provide valid input or enter required data",
+      };
+    }
+
+    const isPortfolioExist = await Portfolio.findOne({ title: params.title });
+    if (isPortfolioExist) {
+      return {
+        status: 400,
+        message: "Portfolio with the same title already exist already exists",
       };
     }
 
@@ -116,6 +125,13 @@ const getSinglePortfoliosService = async (id) => {
 
 const updatePortfolioService = async (id, params) => {
   try {
+    const isPortfolioExist = await Portfolio.findOne({ title: params.title });
+    if (isPortfolioExist) {
+      return {
+        status: 400,
+        message: "Portfolio with the same title already exist already exists",
+      };
+    }
     const data = await Portfolio.findOneAndUpdate({ _id: id }, params, {
       new: true,
     });
@@ -172,12 +188,20 @@ const addBlogService = async (params) => {
   try {
     if (
       [null, undefined, ""].includes(params.title) ||
-      [null, undefined, ""].includes(params.blogImage) ||
+      [null, undefined, ""].includes(params.mainImage) ||
+      [null, undefined, ""].includes(params.cardImage) ||
       [null, undefined, ""].includes(params.content)
     ) {
       return {
         status: 400,
         message: "Please Provide valid input or enter required data",
+      };
+    }
+    const isBlogExist = await Blogs.findOne({ title: params.title });
+    if (isBlogExist) {
+      return {
+        status: 400,
+        message: "Blog with the same title already exist already exists",
       };
     }
     const data = new Blogs(params);
@@ -239,9 +263,17 @@ const getSingleBlogService = async (id) => {
 
 const updateBlogService = async (id, params) => {
   try {
+    const isBlogExist = await Blogs.findOne({ title: params.title });
+    if (isBlogExist) {
+      return {
+        status: 400,
+        message: "Blog with the same title already exist already exists",
+      };
+    }
     const data = await Blogs.findOneAndUpdate({ _id: id }, params, {
       new: true,
     });
+
     if (!data) {
       return {
         status: 400,
@@ -294,9 +326,8 @@ const deleteBlogService = async (id) => {
 const addReviewService = async (params) => {
   try {
     if (
-      [null, undefined, ""].includes(params.quote) ||
-      [null, undefined, ""].includes(params.customerName) ||
-      [null, undefined, ""].includes(params.ratings)
+      [null, undefined, ""].includes(params.clutchReviewImage) ||
+      [null, undefined, ""].includes(params.clutchReviewLink)
     ) {
       return {
         status: 400,
@@ -527,6 +558,84 @@ const getAllInquiriesService = async () => {
   }
 };
 
+const userForgetPasswordService = async (params) => {
+  try {
+    const user = await User.findOne({ email: params.email });
+    if (!user) {
+      return {
+        status: 400,
+        message: "User does not exist",
+      };
+    }
+    params.password = await bcrypt.hash(params.password, 8);
+    const updatePassword = await User.findOneAndUpdate(
+      { email: params.email },
+      { password: params.password },
+      {
+        new: true,
+      }
+    );
+    if (updatePassword) {
+      return {
+        status: 200,
+        message: "Password updated successfully!!",
+      };
+    } else {
+      return {
+        status: 400,
+        message: "Something went wrong while updating password",
+      };
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: error.message,
+    };
+  }
+};
+
+const addInquiryTitleService =async(params)=>{
+  try {
+    const isDataExist = await inquiryHeader.find({});
+    if(isDataExist){
+      await inquiryHeader.deleteMany({});
+    }
+    const data = new inquiryHeader(params);
+    const response = await data.save();
+    return {
+      status:200,
+      data:response
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: error.message,
+    };
+  }
+}
+
+const getInquiryHeaderService=async()=>{
+  try {
+    const data = await inquiryHeader.find({});
+    if(!data){
+      return{
+        status:404,
+        message:"Data not found!!",
+      }
+    }else{
+      return {
+        status:200,
+        data:data
+      }
+    }
+  } catch (error) {
+    return {
+      status: 500,
+      message: error.message,
+    };
+  }
+}
+
 module.exports = {
   contactUsService,
   inquiryService,
@@ -549,4 +658,7 @@ module.exports = {
   userLoginService,
   getAllContactUsDataService,
   getAllInquiriesService,
+  userForgetPasswordService,
+  addInquiryTitleService,
+  getInquiryHeaderService
 };

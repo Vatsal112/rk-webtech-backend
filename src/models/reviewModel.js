@@ -1,24 +1,12 @@
 const mongoose = require("mongoose");
 const reviewSchema = new mongoose.Schema(
   {
-    quote: {
+    clutchReviewImage: {
       type: String,
       required: true,
     },
-    customerImage: {
+    clutchReviewLink: {
       type: String,
-    },
-    customerDesignation: {
-      type: String,
-      required: true,
-    },
-    customerName: {
-      type: String,
-      required: true,
-    },
-    ratings: {
-      type: String,
-      required: true,
     },
     isActive: {
       type: Boolean,
