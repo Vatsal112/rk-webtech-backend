@@ -506,6 +506,7 @@ const userLoginService = async (params) => {
     });
     return {
       status: 200,
+      email:user.email,
       token: token,
     };
   } catch (error) {
