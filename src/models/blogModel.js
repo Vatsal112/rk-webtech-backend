@@ -9,9 +9,15 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    mainImageFileName: {
+      type: String,
+    },
     cardImage: {
       type: String,
       required: true,
+    },
+    cardImageFileName: {
+      type: String,
     },
     content: {
       type: String,

@@ -5,6 +5,9 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    clutchReviewImageFileName: {
+      type: String,
+    },
     clutchReviewLink: {
       type: String,
     },

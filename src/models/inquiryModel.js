@@ -17,9 +17,12 @@ const inquirySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    document:{
-        type:String,
-    }
+    document: {
+      type: String,
+    },
+    documentName: {
+      type: String,
+    },
   },
   {
     timestamps: true,
